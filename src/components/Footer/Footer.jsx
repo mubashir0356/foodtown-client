@@ -6,8 +6,8 @@ import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 
 function Footer() {
   return (
-    <div className="fixed bottom-0 bg-white z-5 w-full block sm:hidden border-t border-slate-500">
-      <ul className="flex items-center justify-center space-x-6">
+    <div className="fixed bottom-0 bg-white z-5 w-full block sm:hidden border-t border-slate-500  rounded-t-2xl">
+      <ul className="flex items-center justify-around space-x-6 py-2">
         <li className="flex flex-col items-center">
           <span>
             <HouseOutlinedIcon fontSize="small" />
