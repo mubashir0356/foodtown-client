@@ -21,14 +21,28 @@ function Header() {
 
   const handleLogout = async () => {
     try {
+      console.log("Logout triggered");
       const response = await axios.post(
-        `${configVariables.ipAddress}/users/logout`
+        `${configVariables.ipAddress}/users/logout`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        }
       );
-      console.log(response, "logout checking response");
+
+      if (response.status === 200) {
+        Cookies.remove("jwtToken");
+        navigate("/login");
+      }
+
+      console.log(response, "logout response");
     } catch (error) {
       console.log("User logout :: Error: ", error);
     }
-    // navigate("/login")
   };
 
   return (
