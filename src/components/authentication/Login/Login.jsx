@@ -3,7 +3,7 @@ import axios from "axios";
 import navImage from "../../../../public/assets/image1.jpeg";
 import configVariables from "../../../configurations/config";
 import Cookies from "js-cookie";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
   const [emailOrMobile, setEmailOrMobile] = useState("");
@@ -18,6 +18,8 @@ function Login() {
   const handlePassword = (event) => setPassword(event.target.value);
 
   const navigate = useNavigate();
+
+  const jwtToken = Cookies.get("jwtToken");
 
   const [formError, setFormError] = useState({
     emailOrMobileError: false,
@@ -55,7 +57,7 @@ function Login() {
 
       if (response.status === 200) {
         const resCookie = Cookies.get("accessToken");
-        console.log(e, "resCookie");
+        console.log(resCookie, "resCookie");
         Cookies.set("jwtToken", response.data.data.accessToken);
         navigate("/");
       } else {
@@ -70,6 +72,11 @@ function Login() {
       }
     }
   };
+
+  if (jwtToken) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div
       className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay"
