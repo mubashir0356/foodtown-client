@@ -19,7 +19,6 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      {/* <ProtectedRoute path="" element={<Home />} /> */}
       <Route
         path=""
         element={

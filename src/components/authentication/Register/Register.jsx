@@ -2,6 +2,9 @@ import axios from "axios";
 import React, { useState } from "react";
 import configVariables from "../../../configurations/config";
 import { Link, useNavigate } from "react-router-dom";
+import RegisterImg from "../../../../public/assets/image1.jpeg";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
 function Register() {
   const navigate = useNavigate();
@@ -14,6 +17,9 @@ function Register() {
 
   const [serverError, setServerError] = useState(false);
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formErrors, setFormErrors] = useState({
     name: false,
@@ -79,18 +85,19 @@ function Register() {
       <div className="flex items-center justify-center min-h-screen pb-24">
         <div className="relative flex flex-col p-3 w-96 border border-slate-500 rounded-2xl shadow-2xl mt-36">
           <div className="absolute self-center -top-16">
-            <img
-              src="/image1.jpeg"
-              alt=""
-              className="h-32 w-32 rounded-full "
-            />
+            <img src={RegisterImg} alt="" className="h-32 w-32 rounded-full" />
           </div>
           <form
             className="mt-16 text-sans space-y-3"
             onSubmit={handleRegistration}
           >
             <div className="space-y-1">
-              <label className="text-black text-md font-bold" htmlFor="name">
+              <label
+                className={`${
+                  formErrors.name ? "text-red-500" : "text-black"
+                } text-md font-bold`}
+                htmlFor="name"
+              >
                 Name
               </label>
               <input
@@ -98,7 +105,9 @@ function Register() {
                 id="name"
                 type="text"
                 value={name}
-                className="p-2 w-full border border-slate-500 rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm"
+                className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
+                  formErrors.name ? "border-red-500" : "border-slate-500"
+                }`}
                 onChange={(e) => setName(e.target.value)}
               />
               {formErrors.name && (
@@ -108,7 +117,12 @@ function Register() {
               )}
             </div>
             <div className="space-y-1">
-              <label className="text-black text-md font-bold" htmlFor="email">
+              <label
+                className={`${
+                  formErrors.email ? "text-red-500" : "text-black"
+                } text-md font-bold`}
+                htmlFor="email"
+              >
                 Email
               </label>
               <input
@@ -116,7 +130,9 @@ function Register() {
                 id="email"
                 type="email"
                 value={email}
-                className="p-2 w-full border border-slate-500 rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm"
+                className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
+                  formErrors.email ? "border-red-500" : "border-slate-500"
+                }`}
                 onChange={(e) => setEmail(e.target.value.toLowerCase())}
               />
               {formErrors.email && (
@@ -126,7 +142,12 @@ function Register() {
               )}
             </div>
             <div className="space-y-1">
-              <label className="text-black text-md font-bold" htmlFor="mobile">
+              <label
+                className={`${
+                  formErrors.mobile ? "text-red-500" : "text-black"
+                } text-md font-bold`}
+                htmlFor="mobile"
+              >
                 Mobile
               </label>
               <input
@@ -134,7 +155,9 @@ function Register() {
                 id="mobile"
                 type="number"
                 value={mobile}
-                className="p-2 w-full border border-slate-500 rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm no-spinner"
+                className={`p-2 w-full border ${
+                  formErrors.mobile ? "border-red-500" : "border-slate-500"
+                } rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm no-spinner`}
                 onChange={(e) => setMobile(e.target.value)}
               />
               {formErrors.mobile && (
@@ -145,19 +168,35 @@ function Register() {
             </div>
             <div className="space-y-1">
               <label
-                className="text-black text-md font-bold"
+                className={`${
+                  formErrors.password ? "text-red-500" : "text-black"
+                } text-md font-bold`}
                 htmlFor="password"
               >
                 Password
               </label>
-              <input
-                placeholder="Set your password"
-                id="password"
-                type="password"
-                value={password}
-                className="p-2 w-full border border-slate-500 rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="relative flex items-center">
+                <input
+                  placeholder="Set your password"
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
+                    formErrors.password ? "border-red-500" : "border-slate-500"
+                  }`}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <div
+                  className="absolute right-2 cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <VisibilityOffRoundedIcon />
+                  ) : (
+                    <VisibilityRoundedIcon />
+                  )}
+                </div>
+              </div>
               {formErrors.password && (
                 <span className="text-red-500 text-xs md:text-sm">
                   *Password is mandatory
@@ -166,31 +205,44 @@ function Register() {
             </div>
             <div className="space-y-1">
               <label
-                className="text-black text-md font-bold"
+                className={`${
+                  formErrors.confirmPassword ? "text-red-500" : "text-black"
+                } text-md font-bold`}
                 htmlFor="confirm-password"
               >
                 Confirm password
               </label>
-              <input
-                placeholder="Confirm your password"
-                id="confirm-password"
-                type="password"
-                value={confirmPassword}
-                className="p-2 w-full border border-slate-500 rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
+              <div className="relative flex items-center">
+                <input
+                  placeholder="Confirm your password"
+                  id="confirm-password"
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
+                    formErrors.confirmPassword
+                      ? "border-red-500"
+                      : "border-slate-500"
+                  }`}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+                <div
+                  className="absolute right-2 cursor-pointer"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showPassword ? (
+                    <VisibilityOffRoundedIcon />
+                  ) : (
+                    <VisibilityRoundedIcon />
+                  )}
+                </div>
+              </div>
               {formErrors.confirmPassword && (
                 <span className="text-red-500 text-xs md:text-sm">
                   *Password doesn't match
                 </span>
               )}
             </div>
-            <Link
-              className="text-blue-800 text-sm underline pt-2 pl-1"
-              to="/login"
-            >
-              Login
-            </Link>
+
             {serverError && (
               <p className="text-red-500 text-sm md:text-md py-0">
                 {serverErrorMessage}
@@ -205,6 +257,12 @@ function Register() {
               </button>
             </div>
           </form>
+          <p className="font-sans text-sm sm:text-base">
+            <span>Already have an account? </span>
+            <Link className="text-blue-800 underline pt-2 pl-1" to="/login">
+              Login
+            </Link>
+          </p>
         </div>
       </div>
     </div>

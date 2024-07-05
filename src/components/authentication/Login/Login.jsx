@@ -4,6 +4,9 @@ import navImage from "../../../../public/assets/image1.jpeg";
 import configVariables from "../../../configurations/config";
 import Cookies from "js-cookie";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
+import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 
 function Login() {
   const [emailOrMobile, setEmailOrMobile] = useState("");
@@ -11,6 +14,8 @@ function Login() {
 
   const [serverError, setServerError] = useState(false);
   const [serverErrorMessage, setServerErrorMessage] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleEmailOrMobileChange = (event) =>
     setEmailOrMobile(event.target.value.toLowerCase());
@@ -77,6 +82,8 @@ function Login() {
     return <Navigate to="/" />;
   }
 
+  const handleShowPassword = () => setShowPassword(!showPassword);
+
   return (
     <div
       className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay"
@@ -96,10 +103,12 @@ function Login() {
               />
             </div>
 
-            <form className="space-y-2" onSubmit={handleLogin}>
+            <form className="space-y-2 font-sans" onSubmit={handleLogin}>
               <div className="space-y-2">
                 <label
-                  className="text-black font-sans text-xl font-bold"
+                  className={`${
+                    formError.emailOrMobileError ? "text-red-500" : "text-black"
+                  } text-xl font-bold`}
                   htmlFor="email"
                 >
                   Email/Mobile
@@ -108,7 +117,11 @@ function Login() {
                   onChange={handleEmailOrMobileChange}
                   type="text"
                   value={emailOrMobile}
-                  className="w-full p-2 text-black border border-slate-800 rounded-lg focus:outline-none m-y-2"
+                  className={`w-full p-2 text-black border ${
+                    formError.emailOrMobileError
+                      ? "border-red-500"
+                      : "border-slate-800"
+                  } rounded-lg focus:outline-none m-y-2`}
                   id="email"
                   placeholder="Enter your email/mobile"
                 />
@@ -120,19 +133,37 @@ function Login() {
               )}
               <div className="space-y-2">
                 <label
-                  className="text-black font-sans text-xl font-bold"
+                  className={`${
+                    formError.passwordError ? "text-red-500" : "text-black"
+                  } text-xl font-bold`}
                   htmlFor="password"
                 >
                   Password
                 </label>
-                <input
-                  onChange={handlePassword}
-                  value={password}
-                  type="password"
-                  className="w-full p-2 text-black border border-slate-800 rounded-lg focus:outline-none m-y-2"
-                  id="password"
-                  placeholder="Enter your password"
-                />
+                <div className="relative flex items-center">
+                  <input
+                    onChange={handlePassword}
+                    value={password}
+                    type={showPassword ? "text" : "password"}
+                    className={`w-full p-2 text-black border ${
+                      formError.passwordError
+                        ? "border-red-500"
+                        : "border-slate-800"
+                    } rounded-lg focus:outline-none m-y-2`}
+                    id="password"
+                    placeholder="Enter your password"
+                  />
+                  <div
+                    className="absolute right-2 cursor-pointer"
+                    onClick={handleShowPassword}
+                  >
+                    {showPassword ? (
+                      <VisibilityOffRoundedIcon />
+                    ) : (
+                      <VisibilityRoundedIcon />
+                    )}
+                  </div>
+                </div>
               </div>
               {formError.passwordError && (
                 <span className="text-red-500 text-xs md:text-sm">
@@ -140,18 +171,13 @@ function Login() {
                 </span>
               )}
               <br />
-              <Link
-                className="text-blue-800 text-sm underline pt-2 pl-1"
-                to="/register"
-              >
-                Register
-              </Link>
+
               {serverError && (
                 <p className="text-red-500 text-sm md:text-md py-0">
                   {serverErrorMessage}
                 </p>
               )}
-              <div className="pt-3 text-center">
+              <div className="text-center">
                 <button
                   type="submit"
                   className="p-2 text-center border border-slate-800 w-1/2 rounded-full"
@@ -160,6 +186,15 @@ function Login() {
                 </button>
               </div>
             </form>
+            <p className="font-sans text-sm sm:text-base">
+              <span>New to FOOD TOWN? </span>
+              <Link
+                className="text-blue-800 underline pt-2 pl-1"
+                to="/register"
+              >
+                Create an account
+              </Link>
+            </p>
           </div>
         </div>
       </div>
