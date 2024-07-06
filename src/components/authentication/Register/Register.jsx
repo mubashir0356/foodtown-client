@@ -251,13 +251,13 @@ function Register() {
             <div className="py-3 text-center">
               <button
                 type="submit"
-                className="w-1/2 border rounded-full border-slate-500 p-3"
+                className="w-1/2 border rounded-full border-slate-500 p-3 text-white dark:text-black"
               >
                 Register
               </button>
             </div>
           </form>
-          <p className="font-sans text-sm sm:text-base">
+          <p className="font-sans text-sm sm:text-base text-white dark:text-black">
             <span>Already have an account? </span>
             <Link className="text-blue-800 underline pt-2 pl-1" to="/login">
               Login

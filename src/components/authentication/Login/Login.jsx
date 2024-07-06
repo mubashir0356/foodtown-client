@@ -180,13 +180,13 @@ function Login() {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="p-2 text-center border border-slate-800 w-1/2 rounded-full"
+                  className="p-2 text-center border border-slate-800 w-1/2 rounded-full text-white dark:text-black"
                 >
                   Login
                 </button>
               </div>
             </form>
-            <p className="font-sans text-sm sm:text-base">
+            <p className="font-sans text-sm sm:text-base text-white dark:text-black">
               <span>New to FOOD TOWN? </span>
               <Link
                 className="text-blue-800 underline pt-2 pl-1"

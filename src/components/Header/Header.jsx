@@ -16,10 +16,14 @@ import axios from "axios";
 import configVariables from "../../configurations/config";
 import Cookies from "js-cookie";
 import ThemeToggleButton from "./ThemeToggleButton";
+import { useSelector } from "react-redux";
 
 function Header() {
   const navigate = useNavigate();
   const jwtToken = Cookies.get("jwtToken");
+  const uiTheme = useSelector((state) => state.uiTheme.theme);
+
+  const iconColor = uiTheme === "dark" ? "white" : "black";
 
   const handleLogout = async () => {
     try {
@@ -47,8 +51,8 @@ function Header() {
   };
 
   return (
-    <div className="min-w-screen sticky top-0 z-20 mb-4">
-      <nav className="flex items-center justify-between md:w-4/5 m-auto border border-slate-500 rounded-2xl text-sans w-11/12 bg-white dark:bg-slate-800">
+    <div className="min-w-screen sticky top-0 z-20 mb-4 bg-white dark:bg-slate-800">
+      <nav className="flex items-center justify-between md:w-4/5 m-auto border border-slate-500 rounded-2xl text-sans w-11/12 bg-white dark:bg-slate-800 ">
         <img src={navImage} alt="" className="h-12 w-40 -ml-3" />
         <ul className="items-center space-x-6 hidden sm:flex">
           <li className="flex items-center space-x-1">
@@ -82,15 +86,22 @@ function Header() {
           </span>
           <span>Account</span>
         </p> */}
-        <div className="flex items-center justify-around md:w-2/6 lg:w-1/4 space-x-5">
+        <div className="flex items-center justify-around md:w-2/6 lg:w-1/4 space-x-3">
           <ThemeToggleButton />
           <Dropdown>
             <MenuButton
-              sx={{ minWidth: 60, padding: "2px" }}
+              sx={{ minWidth: 60, padding: "2px", color: iconColor }}
               style={{ marginRight: "10px" }}
-              endDecorator={<ArrowDropDown style={{ marginLeft: "-5px" }} />}
+              endDecorator={
+                <ArrowDropDown
+                  style={{ marginLeft: "-5px", color: iconColor }}
+                />
+              }
             >
-              <AccountCircleOutlinedIcon fontSize="small" />
+              <AccountCircleOutlinedIcon
+                fontSize="small"
+                sx={{ color: iconColor }}
+              />
             </MenuButton>
             <Menu
               placement="bottom-end"

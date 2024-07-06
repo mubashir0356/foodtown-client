@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { toggleTheme as toggleThemeAction } from "../store/themeSlice";
 
 const ThemeToggleButton = () => {
   const [themeMode, setThemeMode] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("themeMode");
     if (storedTheme) {
       setThemeMode(storedTheme);
+      dispatch(toggleThemeAction(themeMode));
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setThemeMode("dark");
+      dispatch(toggleThemeAction("dark"));
     } else {
       setThemeMode("light");
+      dispatch(toggleThemeAction("light"));
     }
   }, []);
 
@@ -76,6 +82,7 @@ const ThemeToggleButton = () => {
     setThemeMode(newThemeMode);
     localStorage.setItem("themeMode", newThemeMode);
     switchTheme(newThemeMode);
+    dispatch(toggleThemeAction(newThemeMode));
   };
 
   return (
