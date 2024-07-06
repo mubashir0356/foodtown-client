@@ -10,7 +10,7 @@ function App() {
   const hidingThePaths = pathsToHide.includes(location.pathname);
 
   return (
-    <div>
+    <div className="pt-6 bg-white dark:bg-slate-800 dark:text-white">
       {!hidingThePaths && <Header />}
       <Outlet />
       {!hidingThePaths && <Footer />}

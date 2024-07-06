@@ -2,7 +2,7 @@ import React from "react";
 
 function Home() {
   return (
-    <div className="px-10 mb-16 sm:mb-0">
+    <div className="px-10 pb-8 mb-12 sm:mb-0">
       <p>
         Ashraf
         <br />

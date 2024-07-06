@@ -229,7 +229,7 @@ function Register() {
                   className="absolute right-2 cursor-pointer"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showPassword ? (
+                  {showConfirmPassword ? (
                     <VisibilityOffRoundedIcon />
                   ) : (
                     <VisibilityRoundedIcon />
