@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import configVariables from "../../../configurations/config";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import RegisterImg from "../../../../public/assets/image1.jpeg";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
+import Cookies from "js-cookie";
 
 function Register() {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const jwtToken = Cookies.get("jwtToken");
 
   const [formErrors, setFormErrors] = useState({
     name: false,
@@ -73,6 +76,10 @@ function Register() {
       }
     }
   };
+
+  if (jwtToken) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div

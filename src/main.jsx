@@ -14,7 +14,7 @@ import Home from "./components/Home/Home.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import NotFound from "./components/NotFound/Notfound.jsx";
 import { Provider } from "react-redux";
-import store from "./components/store/store.js";
+import store from "./store/store.js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
