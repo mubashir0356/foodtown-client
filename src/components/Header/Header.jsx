@@ -16,12 +16,15 @@ import axios from "axios";
 import configVariables from "../../configurations/config";
 import Cookies from "js-cookie";
 import ThemeToggleButton from "./ThemeToggleButton";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../store/userSlice";
 
 function Header() {
   const navigate = useNavigate();
   const jwtToken = Cookies.get("jwtToken");
   const uiTheme = useSelector((state) => state.uiTheme.theme);
+
+  const dispatch = useDispatch();
 
   const iconColor = uiTheme === "dark" ? "white" : "black";
 
@@ -41,6 +44,8 @@ function Header() {
 
       if (response.status === 200) {
         Cookies.remove("jwtToken");
+        Cookies.remove("userId");
+        dispatch(logout());
         navigate("/login");
       }
 
@@ -105,17 +110,30 @@ function Header() {
             </MenuButton>
             <Menu
               placement="bottom-end"
-              sx={{ minWidth: 120, "--ListItemDecorator-size": "24px" }}
+              sx={{
+                minWidth: 120,
+                "--ListItemDecorator-size": "24px",
+                backgroundColor: `${uiTheme === "dark" ? "#1e293b" : "white"}`,
+              }}
             >
               <MenuItem
+                sx={{ color: `${uiTheme === "dark" ? "white" : "black"}` }}
                 onClick={() => {
                   handleLogout();
                 }}
               >
                 Logout
               </MenuItem>
-              <MenuItem>Edit</MenuItem>
-              <MenuItem>Help</MenuItem>
+              <MenuItem
+                sx={{ color: `${uiTheme === "dark" ? "white" : "black"}` }}
+              >
+                Edit
+              </MenuItem>
+              <MenuItem
+                sx={{ color: `${uiTheme === "dark" ? "white" : "black"}` }}
+              >
+                Help
+              </MenuItem>
             </Menu>
           </Dropdown>
         </div>
