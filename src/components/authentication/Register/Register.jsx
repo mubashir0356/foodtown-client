@@ -76,7 +76,7 @@ function Register() {
 
   return (
     <div
-      className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay"
+      className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay -mt-6"
       style={{
         backgroundImage:
           "url('https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
@@ -191,9 +191,9 @@ function Register() {
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <VisibilityOffRoundedIcon />
+                    <VisibilityOffRoundedIcon sx={{ color: "black" }} />
                   ) : (
-                    <VisibilityRoundedIcon />
+                    <VisibilityRoundedIcon sx={{ color: "black" }} />
                   )}
                 </div>
               </div>
@@ -230,9 +230,9 @@ function Register() {
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
-                    <VisibilityOffRoundedIcon />
+                    <VisibilityOffRoundedIcon sx={{ color: "black" }} />
                   ) : (
-                    <VisibilityRoundedIcon />
+                    <VisibilityRoundedIcon sx={{ color: "black" }} />
                   )}
                 </div>
               </div>
@@ -251,13 +251,13 @@ function Register() {
             <div className="py-3 text-center">
               <button
                 type="submit"
-                className="w-1/2 border rounded-full border-slate-500 p-3 text-white dark:text-black"
+                className="w-1/2 border rounded-full border-slate-500 p-3 text-black"
               >
                 Register
               </button>
             </div>
           </form>
-          <p className="font-sans text-sm sm:text-base text-white dark:text-black">
+          <p className="font-sans text-sm sm:text-base text-black">
             <span>Already have an account? </span>
             <Link className="text-blue-800 underline pt-2 pl-1" to="/login">
               Login

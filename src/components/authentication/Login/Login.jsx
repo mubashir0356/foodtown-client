@@ -86,7 +86,7 @@ function Login() {
 
   return (
     <div
-      className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay"
+      className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay -mt-6"
       style={{
         backgroundImage:
           "url('https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
@@ -158,9 +158,9 @@ function Login() {
                     onClick={handleShowPassword}
                   >
                     {showPassword ? (
-                      <VisibilityOffRoundedIcon />
+                      <VisibilityOffRoundedIcon sx={{ color: "black" }} />
                     ) : (
-                      <VisibilityRoundedIcon />
+                      <VisibilityRoundedIcon sx={{ color: "black" }} />
                     )}
                   </div>
                 </div>
@@ -180,13 +180,13 @@ function Login() {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="p-2 text-center border border-slate-800 w-1/2 rounded-full text-white dark:text-black"
+                  className="p-2 text-center border border-slate-800 w-1/2 rounded-full text-black"
                 >
                   Login
                 </button>
               </div>
             </form>
-            <p className="font-sans text-sm sm:text-base text-white dark:text-black">
+            <p className="font-sans text-sm sm:text-base text-black">
               <span>New to FOOD TOWN? </span>
               <Link
                 className="text-blue-800 underline pt-2 pl-1"

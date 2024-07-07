@@ -86,7 +86,7 @@ function Header() {
           </span>
           <span>Account</span>
         </p> */}
-        <div className="flex items-center justify-around md:w-2/6 lg:w-1/4 space-x-3">
+        <div className="flex items-center justify-around md:w-2/6 lg:w-1/4 space-x-4">
           <ThemeToggleButton />
           <Dropdown>
             <MenuButton
