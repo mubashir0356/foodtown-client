@@ -22,9 +22,10 @@ import { logout } from "../../store/userSlice";
 function Header() {
   const navigate = useNavigate();
   const jwtToken = Cookies.get("jwtToken");
-  const uiTheme = useSelector((state) => state.uiTheme.theme);
 
   const dispatch = useDispatch();
+
+  const uiTheme = useSelector((state) => state.uiTheme.theme);
 
   const iconColor = uiTheme === "dark" ? "white" : "black";
 
@@ -48,8 +49,6 @@ function Header() {
         dispatch(logout());
         navigate("/login");
       }
-
-      console.log(response, "logout response");
     } catch (error) {
       console.log("User logout :: Error: ", error);
     }
@@ -85,12 +84,6 @@ function Header() {
             <span className="sm:hidden lg:inline">Contact Us</span>
           </li>
         </ul>
-        {/* <p className="flex items-center space-x-1 mr-4">
-          <span className="mb-1">
-            <AccountCircleOutlinedIcon fontSize="small" />
-          </span>
-          <span>Account</span>
-        </p> */}
         <div className="flex items-center justify-around md:w-2/6 lg:w-1/4 space-x-4">
           <ThemeToggleButton />
           <Dropdown>

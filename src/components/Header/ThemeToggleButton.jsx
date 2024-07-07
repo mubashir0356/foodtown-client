@@ -10,7 +10,7 @@ const ThemeToggleButton = () => {
     const storedTheme = localStorage.getItem("themeMode");
     if (storedTheme) {
       setThemeMode(storedTheme);
-      dispatch(toggleThemeAction(themeMode));
+      dispatch(toggleThemeAction(storedTheme));
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       setThemeMode("dark");
       dispatch(toggleThemeAction("dark"));

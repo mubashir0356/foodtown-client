@@ -34,7 +34,6 @@ function App() {
           }
         );
 
-        console.log(response, "user data res");
         if (response.status === 200) {
           const userData = response.data.data;
           dispatch(login(userData));
