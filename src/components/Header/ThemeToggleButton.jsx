@@ -87,7 +87,7 @@ const ThemeToggleButton = () => {
 
   return (
     <button
-      className={`w-14 h-5 rounded-full ${
+      className={`w-14 h-4 rounded-full ${
         themeMode === "dark" ? "bg-cyan-300" : "bg-gray-700"
       }  flex items-center transition duration-300 focus:outline-none shadow md:ml-12 lg:ml-12 xl:ml-28`}
       onClick={toggleTheme}

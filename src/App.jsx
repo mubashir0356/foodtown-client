@@ -42,7 +42,9 @@ function App() {
         console.log("Error while fetching userdata", error);
       }
     };
-    getUserData();
+    if (userId) {
+      getUserData();
+    }
   }, []);
 
   return (
