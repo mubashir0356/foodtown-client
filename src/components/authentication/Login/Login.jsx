@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
-import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [emailOrMobile, setEmailOrMobile] = useState("");
@@ -61,19 +62,33 @@ function Login() {
       );
 
       if (response.status === 200) {
+        toast.success("Login Successful!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
         const resCookie = Cookies.get("accessToken");
         Cookies.set("jwtToken", response.data.data.accessToken, { expires: 1 });
         Cookies.set("userId", response.data.data.loggedInUser._id, {
           expires: 1,
         });
-        navigate("/");
+
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       } else {
         console.log("Error");
       }
     } catch (error) {
       console.log("Error while logging in", error);
 
-      if (error.response.status > 201) {
+      if (error.response && error.response.status > 201) {
         setServerError(true);
         setServerErrorMessage(error.response.data.message);
       }
@@ -94,6 +109,7 @@ function Login() {
           "url('https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
       }}
     >
+      <ToastContainer />
       <div className="flex items-center justify-center min-h-screen">
         <div className="relative flex justify-center border border-slate-500 rounded-2xl p-3 min-h-96 min-w-96 shadow-2xl mt-36">
           <div className="absolute -top-16 flex flex-col space-y-2">

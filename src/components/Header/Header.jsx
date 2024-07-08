@@ -18,6 +18,8 @@ import Cookies from "js-cookie";
 import ThemeToggleButton from "./ThemeToggleButton";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Header() {
   const navigate = useNavigate();
@@ -44,10 +46,23 @@ function Header() {
       );
 
       if (response.status === 200) {
+        toast.success("Logout Successful!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         Cookies.remove("jwtToken");
         Cookies.remove("userId");
         dispatch(logout());
-        navigate("/login");
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       }
     } catch (error) {
       console.log("User logout :: Error: ", error);
@@ -56,6 +71,7 @@ function Header() {
 
   return (
     <div className="min-w-screen sticky top-0 z-20 mb-4 bg-white dark:bg-slate-800">
+      <ToastContainer />
       <nav className="flex items-center justify-between md:w-4/5 m-auto border border-slate-500 rounded-2xl text-sans w-11/12 bg-white dark:bg-slate-800 ">
         <img src={navImage} alt="" className="h-12 w-40 -ml-3" />
         <ul className="items-center space-x-6 hidden sm:flex">

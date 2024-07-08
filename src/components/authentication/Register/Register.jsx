@@ -6,6 +6,9 @@ import RegisterImg from "../../../../public/assets/image1.jpeg";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import OtpInput from "../../utilities/OtpInput";
 
 function Register() {
   const navigate = useNavigate();
@@ -22,6 +25,12 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [showOTPInput, setShowOTPInput] = useState(false);
+
+  const [showOTPError, setShowOTPError] = useState(false);
+
+  const [genOtp, setGenOtp] = useState("");
+
   const jwtToken = Cookies.get("jwtToken");
 
   const [formErrors, setFormErrors] = useState({
@@ -31,6 +40,15 @@ function Register() {
     password: false,
     confirmPassword: false,
   });
+
+  const generateOTP = () => {
+    const max = 9000;
+    const min = 1000;
+
+    const otp = Math.floor(Math.random() * max) + min;
+    setGenOtp(otp);
+    return otp;
+  };
 
   const validateForm = () => {
     const errors = {};
@@ -46,12 +64,57 @@ function Register() {
     return Object.keys(errors).length === 0;
   };
 
-  const handleRegistration = async (e) => {
-    e.preventDefault();
-
+  const handleEmailOtp = async () => {
     const isFormValid = validateForm();
     if (!isFormValid) return;
     // if (!validateForm()) return;
+
+    const emailOTP = generateOTP();
+
+    try {
+      const body = {
+        emailOTP,
+        email,
+        username: name,
+        otpFor: "email verification",
+      };
+
+      const sendEmailOtpResponse = await axios.post(
+        `${configVariables.ipAddress}/users/emailotp`,
+        body
+      );
+
+      if (sendEmailOtpResponse.status === 200) {
+        toast.success("OTP sent to email", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        setShowOTPInput(true);
+      }
+    } catch (error) {
+      console.log("error while sending otp through email", error);
+    }
+  };
+
+  console.log(genOtp, "generated Otp");
+
+  const handleOtpSubmit = (userEnteredOtp) => {
+    if (parseInt(userEnteredOtp) !== genOtp) {
+      setShowOTPError(true);
+    } else {
+      setShowOTPError(false);
+    }
+  };
+
+  const handleRegistration = async (e) => {
+    e.preventDefault();
 
     const body = {
       name,
@@ -66,7 +129,20 @@ function Register() {
         body
       );
       if (response.status === 201) {
-        navigate("/login");
+        toast.success("User Registerd Successfully!", {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
       }
     } catch (error) {
       console.log("Error while register:", error);
@@ -89,6 +165,7 @@ function Register() {
           "url('https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
       }}
     >
+      <ToastContainer />
       <div className="flex items-center justify-center min-h-screen pb-24">
         <div className="relative flex flex-col p-3 w-96 border border-slate-500 rounded-2xl shadow-2xl mt-36">
           <div className="absolute self-center -top-16">
@@ -255,14 +332,39 @@ function Register() {
                 {serverErrorMessage}
               </p>
             )}
-            <div className="py-3 text-center">
-              <button
-                type="submit"
-                className="w-1/2 border rounded-full border-slate-500 p-3 text-black"
-              >
-                Register
-              </button>
-            </div>
+            {!showOTPInput && (
+              <div className="pt-3 text-center">
+                <button
+                  type="button"
+                  className="w-1/2 border rounded-full border-slate-500 p-3 text-black disabled:cursor-not-allowed"
+                  onClick={handleEmailOtp}
+                  disabled={showOTPInput}
+                >
+                  Verify Email
+                </button>
+              </div>
+            )}
+            {showOTPInput && (
+              <>
+                <p className="text-sm text-black">
+                  Please enter OTP sent to <b>{email}</b>.
+                </p>
+                <OtpInput length={4} onOtpSubmit={handleOtpSubmit} />
+                {showOTPError && (
+                  <p className="text-red-500 text-xs">Incorrect OTP</p>
+                )}
+              </>
+            )}
+            {showOTPInput && (
+              <div className="py-3 text-center">
+                <button
+                  type="submit"
+                  className="w-1/2 border rounded-full border-slate-500 p-3 text-black"
+                >
+                  Verify OTP/Register
+                </button>
+              </div>
+            )}
           </form>
           <p className="font-sans text-sm sm:text-base text-black">
             <span>Already have an account? </span>
