@@ -76,6 +76,8 @@ function Register() {
         emailOTP,
         email,
         username: name,
+        password,
+        mobile,
         otpFor: "email verification",
       };
 
@@ -97,9 +99,14 @@ function Register() {
         });
 
         setShowOTPInput(true);
+        setServerError(false);
       }
     } catch (error) {
       console.log("error while sending otp through email", error);
+      if (error.response.status > 201) {
+        setServerError(true);
+        setServerErrorMessage(error.response.data.message);
+      }
     }
   };
 
