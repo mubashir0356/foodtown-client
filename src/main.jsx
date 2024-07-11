@@ -15,6 +15,8 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import NotFound from "./components/NotFound/Notfound.jsx";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import PartnerRegister from "./components/authentication/Register/PartnerRegister.jsx";
+import StepperComp from "./components/utilities/StepperComp.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +31,8 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       />
+      <Route path="partner-registration" element={<PartnerRegister />} />
+      <Route path="stepper-com" element={<StepperComp />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

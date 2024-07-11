@@ -31,6 +31,8 @@ function Register() {
 
   const [genOtp, setGenOtp] = useState("");
 
+  const [isValidOtp, setIsValidOtp] = useState(false);
+
   const jwtToken = Cookies.get("jwtToken");
 
   const [formErrors, setFormErrors] = useState({
@@ -115,8 +117,10 @@ function Register() {
   const handleOtpSubmit = (userEnteredOtp) => {
     if (parseInt(userEnteredOtp) !== genOtp) {
       setShowOTPError(true);
+      setIsValidOtp(false);
     } else {
       setShowOTPError(false);
+      setIsValidOtp(true);
     }
   };
 
@@ -174,204 +178,218 @@ function Register() {
     >
       <ToastContainer />
       <div className="flex items-center justify-center min-h-screen pb-24">
-        <div className="relative flex flex-col p-3 w-96 border border-slate-500 rounded-2xl shadow-2xl mt-36">
+        <div className="relative flex flex-col p-3 w-96 border border-slate-500 rounded-2xl shadow-2xl mt-36 md:w-3/5">
           <div className="absolute self-center -top-16">
-            <img src={RegisterImg} alt="" className="h-32 w-32 rounded-full" />
+            <img src={RegisterImg} alt="" className="h-32 w-32 rounded-full " />
           </div>
           <form
-            className="mt-16 text-sans space-y-3"
+            className="mt-16 text-sans space-y-3 md:space-y-0 flex flex-wrap"
             onSubmit={handleRegistration}
           >
-            <div className="space-y-1">
-              <label
-                className={`${
-                  formErrors.name ? "text-red-500" : "text-black"
-                } text-md font-bold`}
-                htmlFor="name"
-              >
-                Name
-              </label>
-              <input
-                placeholder="Full name"
-                id="name"
-                type="text"
-                value={name}
-                className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
-                  formErrors.name ? "border-red-500" : "border-slate-500"
-                }`}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {formErrors.name && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *Name is mandatory
-                </span>
-              )}
-            </div>
-            <div className="space-y-1">
-              <label
-                className={`${
-                  formErrors.email ? "text-red-500" : "text-black"
-                } text-md font-bold`}
-                htmlFor="email"
-              >
-                Email
-              </label>
-              <input
-                placeholder="example@example.com"
-                id="email"
-                type="email"
-                value={email}
-                className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
-                  formErrors.email ? "border-red-500" : "border-slate-500"
-                }`}
-                onChange={(e) => setEmail(e.target.value.toLowerCase())}
-              />
-              {formErrors.email && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *Email is mandatory
-                </span>
-              )}
-            </div>
-            <div className="space-y-1">
-              <label
-                className={`${
-                  formErrors.mobile ? "text-red-500" : "text-black"
-                } text-md font-bold`}
-                htmlFor="mobile"
-              >
-                Mobile
-              </label>
-              <input
-                placeholder="Mobile number"
-                id="mobile"
-                type="number"
-                value={mobile}
-                className={`p-2 w-full border ${
-                  formErrors.mobile ? "border-red-500" : "border-slate-500"
-                } rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm no-spinner`}
-                onChange={(e) => setMobile(e.target.value)}
-              />
-              {formErrors.mobile && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *Mobile number is mandatory
-                </span>
-              )}
-            </div>
-            <div className="space-y-1">
-              <label
-                className={`${
-                  formErrors.password ? "text-red-500" : "text-black"
-                } text-md font-bold`}
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <div className="relative flex items-center">
+            <div className="w-full md:w-1/2 px-2">
+              <div className="space-y-1">
+                <label
+                  className={`${
+                    formErrors.name ? "text-red-500" : "text-black"
+                  } text-md font-bold`}
+                  htmlFor="name"
+                >
+                  Name
+                </label>
                 <input
-                  placeholder="Set your password"
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
-                    formErrors.password ? "border-red-500" : "border-slate-500"
-                  }`}
-                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Full name"
+                  id="name"
+                  type="text"
+                  value={name}
+                  className={`p-2 w-full border rounded-xl focus:outline-none ${
+                    formErrors.name ? "border-red-500" : "border-slate-500"
+                  } text-black text-sm`}
+                  onChange={(e) => setName(e.target.value)}
                 />
-                <div
-                  className="absolute right-2 cursor-pointer"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <VisibilityOffRoundedIcon sx={{ color: "black" }} />
-                  ) : (
-                    <VisibilityRoundedIcon sx={{ color: "black" }} />
-                  )}
-                </div>
-              </div>
-              {formErrors.password && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *Password is mandatory
-                </span>
-              )}
-            </div>
-            <div className="space-y-1">
-              <label
-                className={`${
-                  formErrors.confirmPassword ? "text-red-500" : "text-black"
-                } text-md font-bold`}
-                htmlFor="confirm-password"
-              >
-                Confirm password
-              </label>
-              <div className="relative flex items-center">
-                <input
-                  placeholder="Confirm your password"
-                  id="confirm-password"
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={confirmPassword}
-                  className={`p-2 w-full border rounded-xl focus: outline-none invalid:border-red-500 text-black text-sm ${
-                    formErrors.confirmPassword
-                      ? "border-red-500"
-                      : "border-slate-500"
-                  }`}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <div
-                  className="absolute right-2 cursor-pointer"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? (
-                    <VisibilityOffRoundedIcon sx={{ color: "black" }} />
-                  ) : (
-                    <VisibilityRoundedIcon sx={{ color: "black" }} />
-                  )}
-                </div>
-              </div>
-              {formErrors.confirmPassword && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *Password doesn't match
-                </span>
-              )}
-            </div>
-
-            {serverError && (
-              <p className="text-red-500 text-sm md:text-md py-0">
-                {serverErrorMessage}
-              </p>
-            )}
-            {!showOTPInput && (
-              <div className="pt-3 text-center">
-                <button
-                  type="button"
-                  className="w-1/2 border rounded-full border-slate-500 p-3 text-black disabled:cursor-not-allowed"
-                  onClick={handleEmailOtp}
-                  disabled={showOTPInput}
-                >
-                  Verify Email
-                </button>
-              </div>
-            )}
-            {showOTPInput && (
-              <>
-                <p className="text-sm text-black">
-                  Please enter OTP sent to <b>{email}</b>.
-                </p>
-                <OtpInput length={4} onOtpSubmit={handleOtpSubmit} />
-                {showOTPError && (
-                  <p className="text-red-500 text-xs">Incorrect OTP</p>
+                {formErrors.name && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *Name is mandatory
+                  </span>
                 )}
-              </>
-            )}
-            {showOTPInput && (
-              <div className="py-3 text-center">
-                <button
-                  type="submit"
-                  className="w-1/2 border rounded-full border-slate-500 p-3 text-black"
-                >
-                  Verify OTP/Register
-                </button>
               </div>
-            )}
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <div className="space-y-1">
+                <label
+                  className={`${
+                    formErrors.email ? "text-red-500" : "text-black"
+                  } text-md font-bold`}
+                  htmlFor="email"
+                >
+                  Email
+                </label>
+                <input
+                  placeholder="example@example.com"
+                  id="email"
+                  type="email"
+                  value={email}
+                  className={`p-2 w-full border rounded-xl focus:outline-none ${
+                    formErrors.email ? "border-red-500" : "border-slate-500"
+                  } text-black text-sm`}
+                  onChange={(e) => setEmail(e.target.value.toLowerCase())}
+                />
+                {formErrors.email && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *Email is mandatory
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <div className="space-y-1">
+                <label
+                  className={`${
+                    formErrors.mobile ? "text-red-500" : "text-black"
+                  } text-md font-bold`}
+                  htmlFor="mobile"
+                >
+                  Mobile
+                </label>
+                <input
+                  placeholder="Mobile number"
+                  id="mobile"
+                  type="number"
+                  value={mobile}
+                  className={`p-2 w-full border rounded-xl focus:outline-none no-spinner ${
+                    formErrors.mobile ? "border-red-500" : "border-slate-500"
+                  } text-black text-sm`}
+                  onChange={(e) => setMobile(e.target.value)}
+                />
+                {formErrors.mobile && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *Mobile number is mandatory
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <div className="space-y-1">
+                <label
+                  className={`${
+                    formErrors.password ? "text-red-500" : "text-black"
+                  } text-md font-bold`}
+                  htmlFor="password"
+                >
+                  Password
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    placeholder="Set your password"
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    className={`p-2 w-full border rounded-xl focus:outline-none ${
+                      formErrors.password
+                        ? "border-red-500"
+                        : "border-slate-500"
+                    } text-black text-sm`}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <div
+                    className="absolute right-2 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <VisibilityOffRoundedIcon sx={{ color: "black" }} />
+                    ) : (
+                      <VisibilityRoundedIcon sx={{ color: "black" }} />
+                    )}
+                  </div>
+                </div>
+                {formErrors.password && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *Password is mandatory
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="w-full md:w-1/2 px-2">
+              <div className="space-y-1">
+                <label
+                  className={`${
+                    formErrors.confirmPassword ? "text-red-500" : "text-black"
+                  } text-md font-bold`}
+                  htmlFor="confirm-password"
+                >
+                  Confirm password
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    placeholder="Confirm your password"
+                    id="confirm-password"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    className={`p-2 w-full border rounded-xl focus:outline-none ${
+                      formErrors.confirmPassword
+                        ? "border-red-500"
+                        : "border-slate-500"
+                    } text-black text-sm`}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                  <div
+                    className="absolute right-2 cursor-pointer"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <VisibilityOffRoundedIcon sx={{ color: "black" }} />
+                    ) : (
+                      <VisibilityRoundedIcon sx={{ color: "black" }} />
+                    )}
+                  </div>
+                </div>
+                {formErrors.confirmPassword && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *Password doesn't match
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="w-full text-center">
+              {serverError && (
+                <p className="text-red-500 text-sm md:text-md pt-1 px-2 text-left">
+                  {serverErrorMessage}
+                </p>
+              )}
+              {!showOTPInput && (
+                <div className="px-2 py-3 w-1/2 m-auto">
+                  <button
+                    type="button"
+                    className="w-1/2 border rounded-full border-slate-500 p-3 text-black disabled:cursor-not-allowed"
+                    onClick={handleEmailOtp}
+                    disabled={showOTPInput}
+                  >
+                    Verify Email
+                  </button>
+                </div>
+              )}
+              {showOTPInput && (
+                <>
+                  <p className="text-sm text-black py-2">
+                    Please enter OTP sent to <b>{email}</b>.
+                  </p>
+                  <OtpInput length={4} onOtpSubmit={handleOtpSubmit} />
+                  {showOTPError && (
+                    <p className="text-red-500 text-xs pt-2">Incorrect OTP</p>
+                  )}
+                </>
+              )}
+              {showOTPInput && (
+                <div className="px-2 py-3 md:w-1/2 m-auto">
+                  <button
+                    type="submit"
+                    className="w-1/2 border rounded-full border-slate-500 p-3 text-black disabled:cursor-not-allowed"
+                    disabled={!isValidOtp}
+                  >
+                    Verify OTP/Register
+                  </button>
+                </div>
+              )}
+            </div>
           </form>
           <p className="font-sans text-sm sm:text-base text-black">
             <span>Already have an account? </span>

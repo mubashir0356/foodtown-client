@@ -17,7 +17,7 @@ function App() {
   const userId = Cookies.get("userId");
   const jwtToken = Cookies.get("jwtToken");
 
-  const pathsToHide = ["/login", "/register"];
+  const pathsToHide = ["/login", "/register", "/partner-registration"];
   const hidingThePaths = pathsToHide.includes(location.pathname);
 
   useEffect(() => {

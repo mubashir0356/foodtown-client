@@ -102,121 +102,129 @@ function Login() {
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   return (
-    <div
-      className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay -mt-6"
-      style={{
-        backgroundImage:
-          "url('https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
-      }}
-    >
-      <ToastContainer />
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="relative flex justify-center border border-slate-500 rounded-2xl p-3 min-h-96 min-w-96 shadow-2xl mt-36">
-          <div className="absolute -top-16 flex flex-col space-y-2">
-            <div className="flex items-center justify-center">
-              <img
-                src={navImage}
-                alt="food-town-logo"
-                className="h-32 w-32 border rounded-full"
-              />
-            </div>
-
-            <form className="space-y-2 font-sans" onSubmit={handleLogin}>
-              <div className="space-y-2">
-                <label
-                  className={`${
-                    formError.emailOrMobileError ? "text-red-500" : "text-black"
-                  } text-xl font-bold`}
-                  htmlFor="email"
-                >
-                  Email/Mobile
-                </label>
-                <input
-                  onChange={handleEmailOrMobileChange}
-                  type="text"
-                  value={emailOrMobile}
-                  className={`w-full p-2 text-black border ${
-                    formError.emailOrMobileError
-                      ? "border-red-500"
-                      : "border-slate-800"
-                  } rounded-lg focus:outline-none m-y-2`}
-                  id="email"
-                  placeholder="Enter your email/mobile"
+    <>
+      <div
+        className="min-h-screen bg-fixed bg-cover bg-center bg-no-repeat bg-overlay -mt-6"
+        style={{
+          backgroundImage:
+            "url('https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
+        }}
+      >
+        <div className="flex items-center justify-center min-h-screen pb-24">
+          <div className="relative flex justify-center border border-slate-500 rounded-2xl p-3 min-h-[420px] min-w-96 shadow-2xl mt-36">
+            <div className="absolute -top-16 flex flex-col space-y-2 min-h-full">
+              <div className="flex items-center justify-center">
+                <img
+                  src={navImage}
+                  alt="food-town-logo"
+                  className="h-32 w-32 border rounded-full"
                 />
               </div>
-              {formError.emailOrMobileError && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *This field is mandatory
-                </span>
-              )}
-              <div className="space-y-2">
-                <label
-                  className={`${
-                    formError.passwordError ? "text-red-500" : "text-black"
-                  } text-xl font-bold`}
-                  htmlFor="password"
-                >
-                  Password
-                </label>
-                <div className="relative flex items-center">
-                  <input
-                    onChange={handlePassword}
-                    value={password}
-                    type={showPassword ? "text" : "password"}
-                    className={`w-full p-2 text-black border ${
-                      formError.passwordError
-                        ? "border-red-500"
-                        : "border-slate-800"
-                    } rounded-lg focus:outline-none m-y-2`}
-                    id="password"
-                    placeholder="Enter your password"
-                  />
-                  <div
-                    className="absolute right-2 cursor-pointer"
-                    onClick={handleShowPassword}
+
+              <form className="space-y-2 font-sans" onSubmit={handleLogin}>
+                <div className="space-y-2">
+                  <label
+                    className={`${
+                      formError.emailOrMobileError
+                        ? "text-red-500"
+                        : "text-black"
+                    } text-xl font-bold`}
+                    htmlFor="email"
                   >
-                    {showPassword ? (
-                      <VisibilityOffRoundedIcon sx={{ color: "black" }} />
-                    ) : (
-                      <VisibilityRoundedIcon sx={{ color: "black" }} />
-                    )}
+                    Email/Mobile
+                  </label>
+                  <input
+                    onChange={handleEmailOrMobileChange}
+                    type="text"
+                    value={emailOrMobile}
+                    className="w-full p-2 text-black border border-slate-800 rounded-lg focus:outline-none m-y-2"
+                    id="email"
+                    placeholder="Enter your email/mobile"
+                  />
+                </div>
+                {formError.emailOrMobileError && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *This field is mandatory
+                  </span>
+                )}
+                <div className="space-y-2">
+                  <label
+                    className={`${
+                      formError.passwordError ? "text-red-500" : "text-black"
+                    } text-xl font-bold`}
+                    htmlFor="password"
+                  >
+                    Password
+                  </label>
+                  <div className="relative flex items-center">
+                    <input
+                      onChange={handlePassword}
+                      value={password}
+                      type={showPassword ? "text" : "password"}
+                      className={`w-full p-2 text-black border ${
+                        formError.passwordError
+                          ? "border-red-500"
+                          : "border-slate-800"
+                      } rounded-lg focus:outline-none m-y-2`}
+                      id="password"
+                      placeholder="Enter your password"
+                    />
+                    <div
+                      className="absolute right-2 cursor-pointer"
+                      onClick={handleShowPassword}
+                    >
+                      {showPassword ? (
+                        <VisibilityOffRoundedIcon sx={{ color: "black" }} />
+                      ) : (
+                        <VisibilityRoundedIcon sx={{ color: "black" }} />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-              {formError.passwordError && (
-                <span className="text-red-500 text-xs md:text-sm">
-                  *Password is mandatory
-                </span>
-              )}
-              <br />
-
-              {serverError && (
-                <p className="text-red-500 text-sm md:text-md py-0">
-                  {serverErrorMessage}
-                </p>
-              )}
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="p-2 text-center border border-slate-800 w-1/2 rounded-full text-black"
+                {formError.passwordError && (
+                  <span className="text-red-500 text-xs md:text-sm">
+                    *Password is mandatory
+                  </span>
+                )}
+                <br />
+                {serverError && (
+                  <p className="text-red-500 text-sm md:text-md py-0">
+                    {serverErrorMessage}
+                  </p>
+                )}
+                <div className="text-center">
+                  <button
+                    type="submit"
+                    className="p-2 text-center border border-slate-800 w-1/2 rounded-full text-black"
+                  >
+                    Login
+                  </button>
+                </div>
+              </form>
+              <p className="font-sans text-sm sm:text-base text-black">
+                <span>New to FOOD TOWN? </span>
+                <Link
+                  className="text-blue-800 underline pt-2 pl-1"
+                  to="/register"
                 >
-                  Login
-                </button>
-              </div>
-            </form>
-            <p className="font-sans text-sm sm:text-base text-black">
-              <span>New to FOOD TOWN? </span>
-              <Link
-                className="text-blue-800 underline pt-2 pl-1"
-                to="/register"
-              >
-                Create an account
-              </Link>
-            </p>
+                  Create an account
+                </Link>
+              </p>
+              <p className="font-sans text-sm sm:text-base text-black">
+                <span>Own a Restaurant? </span>
+                <Link
+                  className="text-blue-800 underline pt-2 pl-1"
+                  to="/partner-registration"
+                >
+                  Be our Partner
+                </Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 }
 
