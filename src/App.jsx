@@ -7,6 +7,9 @@ import { login } from "./store/userSlice";
 import Cookies from "js-cookie";
 import axios from "axios";
 import configVariables from "./configurations/config";
+import PartnerHeader from "./components/Header/PartnerHeader";
+import PartnerFooter from "./components/Footer/PartnerFooter";
+import { loadRestaurantData } from "./store/restaurantSlice";
 
 import "./App.css";
 
@@ -19,6 +22,8 @@ function App() {
 
   const pathsToHide = ["/login", "/register", "/partner-registration"];
   const hidingThePaths = pathsToHide.includes(location.pathname);
+
+  const showPartnerHeaderFooter = location.pathname.startsWith("/partner");
 
   useEffect(() => {
     const getUserData = async () => {
@@ -37,6 +42,24 @@ function App() {
         if (response.status === 200) {
           const userData = response.data.data;
           dispatch(login(userData));
+
+          if (userData.isOwner) {
+            const restaurantResponse = await axios.get(
+              `${configVariables.ipAddress}/restaurants/getRestaurantData/${userId}`,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${jwtToken}`,
+                },
+                withCredentials: true,
+              }
+            );
+
+            if (restaurantResponse.status === 200) {
+              const restaurantData = restaurantResponse.data.data;
+              dispatch(loadRestaurantData(restaurantData));
+            }
+          }
         }
       } catch (error) {
         console.log("Error while fetching userdata", error);
@@ -45,13 +68,17 @@ function App() {
     if (userId) {
       getUserData();
     }
-  }, []);
+  }, [userId, jwtToken, dispatch]);
 
   return (
-    <div className="pt-6 bg-white dark:bg-slate-800 dark:text-white">
-      {!hidingThePaths && <Header />}
-      <Outlet />
-      {!hidingThePaths && <Footer />}
+    <div className="pt-6 bg-white dark:bg-slate-800 dark:text-white flex flex-col min-h-screen">
+      {!hidingThePaths && !showPartnerHeaderFooter && <Header />}
+      {showPartnerHeaderFooter && jwtToken && <PartnerHeader />}
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      {showPartnerHeaderFooter && jwtToken && <PartnerFooter />}
+      {!hidingThePaths && !showPartnerHeaderFooter && <Footer />}
     </div>
   );
 }

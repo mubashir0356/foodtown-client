@@ -17,6 +17,9 @@ import { Provider } from "react-redux";
 import store from "./store/store.js";
 import PartnerRegister from "./components/authentication/Register/PartnerRegister.jsx";
 import StepperComp from "./components/utilities/StepperComp.jsx";
+import Menu from "./components/Partner/Menu.jsx";
+import AddDish from "./components/Partner/AddDish.jsx";
+import PartnerOrders from "./components/Partner/PartnerOrders.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,8 +34,33 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       />
+      <Route
+        path="partner-menu"
+        element={
+          <ProtectedRoute>
+            <Menu />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="partner-add-items"
+        element={
+          <ProtectedRoute>
+            <AddDish />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="partner-orders"
+        element={
+          <ProtectedRoute>
+            <PartnerOrders />
+          </ProtectedRoute>
+        }
+      />
       <Route path="partner-registration" element={<PartnerRegister />} />
-      <Route path="stepper-com" element={<StepperComp />} />
       <Route path="*" element={<NotFound />} />
     </Route>
   )

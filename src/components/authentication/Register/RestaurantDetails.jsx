@@ -57,11 +57,12 @@ function RestaurantDetails({ onBack, onNext }) {
     toTimeError: false,
     addressError: false,
     foodTypesError: false,
+    imageUrlError: false,
   });
 
   console.log(restaurantFormError);
 
-  const checkFormErrors = () => {
+  const checkFormErrors = (validationFor) => {
     let errors = {};
     if (!restaurantName) errors.restaurantNameError = true;
     if (!fromTime) errors.fromTimeError = true;
@@ -69,6 +70,8 @@ function RestaurantDetails({ onBack, onNext }) {
     if (!restaurantAddress) errors.addressError = true;
     if (!selectedFoodTypes.length) errors.foodTypesError = true;
 
+    if (validationFor === "next" && !restaurantImgUrl)
+      errors.imageUrlError = true;
     setRestaurantFormError(errors);
     return Object.keys(errors).length === 0;
   };
@@ -77,7 +80,7 @@ function RestaurantDetails({ onBack, onNext }) {
     e.preventDefault();
     setServerError(false);
 
-    const isFormErrors = checkFormErrors();
+    const isFormErrors = checkFormErrors("next");
     if (!isFormErrors) return;
 
     try {
@@ -121,14 +124,15 @@ function RestaurantDetails({ onBack, onNext }) {
   };
 
   const handleImgClick = () => {
-    setShowNextButton(false);
-    const isFormErrors = checkFormErrors();
+    const isFormErrors = checkFormErrors("image");
+    console.log(isFormErrors, "form img validations");
     if (!isFormErrors) return;
 
     imgRef.current.click();
   };
 
   const handleImgChange = async (event) => {
+    setShowNextButton(false);
     setServerError(false);
 
     const imgFile = event.target.files[0];
@@ -142,8 +146,6 @@ function RestaurantDetails({ onBack, onNext }) {
         `${configVariables.ipAddress}/restaurants/uploadRestaurantImg`,
         formData
       );
-
-      console.log(response, "upload img res");
 
       if (response.status === 200) {
         setRestaurantImgPublicId(response.data.data.public_id);
@@ -289,6 +291,11 @@ function RestaurantDetails({ onBack, onNext }) {
               >
                 Upload Restaurant Image/Logo
               </button>
+              {restaurantFormError.imageUrlError && (
+                <span className="text-red-600 text-xs md:text-sm">
+                  *Restaurant image is mandatory.
+                </span>
+              )}
             </div>
           </div>
         </div>

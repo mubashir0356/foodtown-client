@@ -112,8 +112,6 @@ function Register() {
     }
   };
 
-  console.log(genOtp, "generated Otp");
-
   const handleOtpSubmit = (userEnteredOtp) => {
     if (parseInt(userEnteredOtp) !== genOtp) {
       setShowOTPError(true);

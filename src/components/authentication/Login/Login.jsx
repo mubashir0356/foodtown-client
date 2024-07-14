@@ -79,8 +79,14 @@ function Login() {
           expires: 1,
         });
 
+        const isOwner = response.data.data.loggedInUser.isOwner;
+
         setTimeout(() => {
-          navigate("/");
+          if (isOwner) {
+            navigate("/partner-menu");
+          } else {
+            navigate("/");
+          }
         }, 1000);
       } else {
         console.log("Error");

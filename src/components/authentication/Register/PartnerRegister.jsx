@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import navImage from "../../../../public/assets/image1.jpeg";
 import Cookies from "js-cookie";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
@@ -15,8 +15,6 @@ import StepperComp from "../../utilities/StepperComp";
 function PartnerRegister() {
   const jwtToken = Cookies.get("jwtToken");
 
-  const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
@@ -30,10 +28,6 @@ function PartnerRegister() {
   const [serverErrorMessage, setServerErrorMessage] = useState("");
 
   const [showForm, setShowForm] = useState("owner");
-
-  const [showOTPInput, setShowOTPInput] = useState(false);
-  const [showOTPError, setShowOTPError] = useState(false);
-  const [genOtp, setGenOtp] = useState("");
 
   const [activeStep, setActiveStep] = useState(0);
 
