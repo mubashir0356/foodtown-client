@@ -22,7 +22,7 @@ export const loadBagData = createAsyncThunk("loadBagData", async () => {
         }
     )
     console.log(response.data)
-    return response.data?.data?.dishes
+    return response.data?.data
 })
 
 const bagSlice = createSlice({

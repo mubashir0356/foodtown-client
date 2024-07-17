@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../store/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 
 function Header() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function Header() {
     }
   };
 
-  const bagData = useSelector((state) => state.bag.bagData);
+  const bagData = useSelector((state) => state.bag?.bagData);
 
   return (
     <div className="min-w-screen sticky top-0 z-30 mb-4 bg-white dark:bg-slate-800">
@@ -103,24 +104,24 @@ function Header() {
                 <LocalMallOutlinedIcon fontSize="small" />
               </span>
               <span className="sm:hidden lg:inline">Bag</span>
-              {bagData?.length > 0 && (
-                <p className="bg-cyan-300 rounded-full w-6 h-6 ml-1 text-center">
-                  {bagData?.length}
+              {bagData?.dishes?.length > 0 && (
+                <p className="bg-cyan-300 rounded-full w-6 h-6 ml-1 text-center text-black text-base font-semibold">
+                  {bagData?.dishes?.length}
                 </p>
               )}
             </li>
           </NavLink>
           <NavLink
-            to="/wishlist"
+            to="/orders"
             className={({ isActive }) =>
               `${isActive ? "text-cyan-400 border-b-2 border-b-cyan-400" : ""}`
             }
           >
             <li className="flex items-center space-x-1">
               <span className="mb-1">
-                <FavoriteBorderOutlinedIcon fontSize="small" />
+                <ShoppingCartOutlinedIcon fontSize="small" />
               </span>
-              <span className="sm:hidden lg:inline">Wishlist</span>
+              <span className="sm:hidden lg:inline">Orders</span>
             </li>
           </NavLink>
           <NavLink

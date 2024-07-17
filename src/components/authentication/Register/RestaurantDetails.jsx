@@ -324,7 +324,7 @@ function RestaurantDetails({ onBack, onNext }) {
                   />
                   <label
                     htmlFor={item}
-                    className="ml-2 accent-teal-500 cursor-pointer "
+                    className="ml-2 accent-teal-500 cursor-pointer text-black dark:text-white"
                   >
                     {item}
                   </label>

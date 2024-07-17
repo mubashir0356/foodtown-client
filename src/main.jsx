@@ -20,9 +20,11 @@ import Menu from "./components/Partner/Menu.jsx";
 import AddDish from "./components/Partner/AddDish.jsx";
 import PartnerOrders from "./components/Partner/PartnerOrders.jsx";
 import Bag from "./components/User/Bag.jsx";
-import Wishlist from "./components/User/Wishlist.jsx";
+import Orders from "./components/User/Orders.jsx";
 import ContactUs from "./components/User/ContactUs.jsx";
 import Restaurant from "./components/Restaurant/Restaurant.jsx";
+import PaymentSuccess from "./components/Payment/PaymentSuccess.jsx";
+import PaymentFailure from "./components/Payment/PaymentFailure.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -70,10 +72,10 @@ const router = createBrowserRouter(
         }
       />
       <Route
-        path="wishlist"
+        path="orders"
         element={
           <ProtectedRoute>
-            <Wishlist />
+            <Orders />
           </ProtectedRoute>
         }
       />
@@ -90,6 +92,24 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute>
             <Restaurant />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="payment-success"
+        element={
+          <ProtectedRoute>
+            <PaymentSuccess />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="payment-failure"
+        element={
+          <ProtectedRoute>
+            <PaymentFailure />
           </ProtectedRoute>
         }
       />

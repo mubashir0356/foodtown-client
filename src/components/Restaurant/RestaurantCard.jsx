@@ -13,9 +13,7 @@ function RestaurantCard(props) {
         />
       </div>
       <div className="py-2">
-        <h1 className="truncate text-lg font-semibold" onClick>
-          {restaurant.name}
-        </h1>
+        <h1 className="truncate text-lg font-semibold">{restaurant.name}</h1>
         <h6 className="text-sm dark:text-slate-300">
           30-45 <span className="text-xs">mins</span>
         </h6>
