@@ -19,7 +19,7 @@ function EditDish({ open, handleClose, dish, fetchDishes }) {
     (state) => state.restaurant?.restaurantData
   );
 
-  const [showDishButton, setShowDishButton] = useState(true);
+  // const [showDishButton, setShowDishButton] = useState(true);
 
   const jwtToken = Cookies.get("jwtToken");
 
@@ -28,7 +28,7 @@ function EditDish({ open, handleClose, dish, fetchDishes }) {
   };
 
   const handleImgChange = async (event) => {
-    setShowDishButton(false);
+    // setShowDishButton(false);
 
     const imgFile = event.target.files[0];
 
@@ -55,7 +55,7 @@ function EditDish({ open, handleClose, dish, fetchDishes }) {
       if (response.status === 200) {
         setProductImgPublicId(response.data.data.public_id);
         setProductImgImgUrl(response.data.data.url);
-        setShowDishButton(true);
+        // setShowDishButton(true);
         // setShowNextButton(true);
       }
     } catch (error) {
@@ -75,8 +75,6 @@ function EditDish({ open, handleClose, dish, fetchDishes }) {
       productImgPublicId,
       producttImgUrl,
     };
-
-    console.log(body);
 
     try {
       await axios.put(

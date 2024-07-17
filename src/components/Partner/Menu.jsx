@@ -13,6 +13,7 @@ import ChangeHistoryTwoToneIcon from "@mui/icons-material/ChangeHistoryTwoTone";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 
 function Menu() {
+  // TODO: Add no dishes case too
   const jwtToken = Cookies.get("jwtToken");
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -21,7 +22,6 @@ function Menu() {
   const [dishes, setDishes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [serverError, setServerError] = useState(false);
-  console.log(dishes, "fetched dishes");
 
   const restaurantData = useSelector(
     (state) => state.restaurant.restaurantData
@@ -64,8 +64,6 @@ function Menu() {
       console.log("Partner-menu :: Menu :: Delete Dish :: Error:", error);
       toast.error("Failed to delete dish");
     }
-
-    console.log(response);
   };
 
   const editDish = async (dish) => {

@@ -11,7 +11,7 @@ import MenuButton from "@mui/joy/MenuButton";
 import Menu from "@mui/joy/Menu";
 import MenuItem from "@mui/joy/MenuItem";
 import ArrowDropDown from "@mui/icons-material/ArrowDropDown";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import configVariables from "../../configurations/config";
 import Cookies from "js-cookie";
@@ -69,36 +69,73 @@ function Header() {
     }
   };
 
+  const bagData = useSelector((state) => state.bag.bagData);
+
   return (
-    <div className="min-w-screen sticky top-0 z-20 mb-4 bg-white dark:bg-slate-800">
+    <div className="min-w-screen sticky top-0 z-30 mb-4 bg-white dark:bg-slate-800">
       <ToastContainer />
       <nav className="flex items-center justify-between md:w-4/5 m-auto border border-slate-500 rounded-2xl text-sans w-11/12 bg-white dark:bg-slate-800 ">
-        <img src={navImage} alt="" className="h-12 w-40 -ml-3" />
+        <NavLink to="/">
+          <img src={navImage} alt="" className="h-12 w-40 -ml-3" />
+        </NavLink>
         <ul className="items-center space-x-6 hidden sm:flex">
-          <li className="flex items-center space-x-1">
-            <span className="mb-1">
-              <HouseOutlinedIcon fontSize="small" />
-            </span>
-            <span className="sm:hidden lg:inline">Home</span>
-          </li>
-          <li className="flex items-center space-x-1">
-            <span className="mb-1">
-              <LocalMallOutlinedIcon fontSize="small" />
-            </span>
-            <span className="sm:hidden lg:inline">Bag</span>
-          </li>
-          <li className="flex items-center space-x-1">
-            <span className="mb-1">
-              <FavoriteBorderOutlinedIcon fontSize="small" />
-            </span>
-            <span className="sm:hidden lg:inline">Wishlist</span>
-          </li>
-          <li className="flex items-center space-x-1">
-            <span className="mb-1">
-              <ContactMailOutlinedIcon fontSize="small" />
-            </span>
-            <span className="sm:hidden lg:inline">Contact Us</span>
-          </li>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${isActive ? "text-cyan-400 border-b-2 border-b-cyan-400" : ""}`
+            }
+          >
+            <li className="flex items-center space-x-1">
+              <span className="mb-1">
+                <HouseOutlinedIcon fontSize="small" />
+              </span>
+              <span className="sm:hidden lg:inline">Home</span>
+            </li>
+          </NavLink>
+          <NavLink
+            to="/bag"
+            className={({ isActive }) =>
+              `${isActive ? "text-cyan-400 border-b-2 border-b-cyan-400" : ""}`
+            }
+          >
+            <li className="flex items-center space-x-1">
+              <span className="mb-1">
+                <LocalMallOutlinedIcon fontSize="small" />
+              </span>
+              <span className="sm:hidden lg:inline">Bag</span>
+              {bagData?.length > 0 && (
+                <p className="bg-cyan-300 rounded-full w-6 h-6 ml-1 text-center">
+                  {bagData?.length}
+                </p>
+              )}
+            </li>
+          </NavLink>
+          <NavLink
+            to="/wishlist"
+            className={({ isActive }) =>
+              `${isActive ? "text-cyan-400 border-b-2 border-b-cyan-400" : ""}`
+            }
+          >
+            <li className="flex items-center space-x-1">
+              <span className="mb-1">
+                <FavoriteBorderOutlinedIcon fontSize="small" />
+              </span>
+              <span className="sm:hidden lg:inline">Wishlist</span>
+            </li>
+          </NavLink>
+          <NavLink
+            to="/contact-us"
+            className={({ isActive }) =>
+              `${isActive ? "text-cyan-400 border-b-2 border-b-cyan-400" : ""}`
+            }
+          >
+            <li className="flex items-center space-x-1">
+              <span className="mb-1">
+                <ContactMailOutlinedIcon fontSize="small" />
+              </span>
+              <span className="sm:hidden lg:inline">Contact Us</span>
+            </li>
+          </NavLink>
         </ul>
         <div className="flex items-center justify-around md:w-2/6 lg:w-1/4 space-x-4">
           <ThemeToggleButton />
