@@ -38,7 +38,7 @@ function DishItem(props) {
     return dish ? dish.quantity : 0;
   };
 
-  const handleAddDishInBag = async (dishId) => {
+  const handleAddDishInBag = async (dishId, dishAmount) => {
     const userId = Cookies.get("userId");
     try {
       const response = await axios.get(
@@ -76,7 +76,7 @@ function DishItem(props) {
 
       const addResponse = await axios.post(
         `${configVariables.ipAddress}/bags/addBag/${restaurantId}`,
-        { dishId },
+        { dishId, dishAmount },
         {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -193,7 +193,7 @@ function DishItem(props) {
           />
           {showAddButton ? (
             <button
-              onClick={() => handleAddDishInBag(dish._id)}
+              onClick={() => handleAddDishInBag(dish._id, dish.amount)}
               className="absolute text-white dark:text-black font-bold -bottom-4 left-1/2 px-3 py-1 sm:px-6 sm:py-2 -translate-x-1/2 rounded-lg m-0 border border-slate-500 bg-black dark:bg-white"
             >
               Add

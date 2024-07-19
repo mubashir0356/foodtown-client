@@ -12,17 +12,20 @@ const initialState = {
 const jwtToken = Cookies.get("jwtToken")
 
 export const loadBagData = createAsyncThunk("loadBagData", async () => {
-    const response = await axios.get(`${configVariables.ipAddress}/bags/getBagData/`,
-        {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${jwtToken}`,
-            },
-            withCredentials: true,
-        }
-    )
-    console.log(response.data)
-    return response.data?.data
+    try {
+        const response = await axios.get(`${configVariables.ipAddress}/bags/getBagData/`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+                withCredentials: true,
+            }
+        )
+        return response.data?.data
+    } catch (error) {
+        console.log("Bag Slice :: loadBagData :: Error", error)
+    }
 })
 
 const bagSlice = createSlice({

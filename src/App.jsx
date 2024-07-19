@@ -21,7 +21,13 @@ function App() {
   const userId = Cookies.get("userId");
   const jwtToken = Cookies.get("jwtToken");
 
-  const pathsToHide = ["/login", "/register", "/partner-registration"];
+  const pathsToHide = [
+    "/login",
+    "/register",
+    "/partner-registration",
+    "/payment-success",
+    "/payment-failure",
+  ];
   const hidingThePaths = pathsToHide.includes(location.pathname);
 
   const showPartnerHeaderFooter = location.pathname.startsWith("/partner");

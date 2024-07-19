@@ -5,6 +5,8 @@ import Cookies from "js-cookie";
 import configVariables from "../../configurations/config";
 import DishItem from "../Restaurant/DishItem";
 import { loadStripe } from "@stripe/stripe-js";
+import EmptyBag from "../../../public/assets/grocery-icon.png";
+import { useNavigate } from "react-router-dom";
 
 function Bag() {
   const [bagDishes, setBagDishes] = useState([]);
@@ -15,6 +17,8 @@ function Bag() {
   const restaurantId = bagData?.restaurantId;
 
   const jwtToken = Cookies.get("jwtToken");
+
+  const navigate = useNavigate();
 
   const fetchBagDishes = async () => {
     try {
@@ -84,8 +88,6 @@ function Bag() {
         }
       );
 
-      console.log(response);
-
       const result = await stripe.redirectToCheckout({
         sessionId: response.data.id, // Access session ID from response.data
       });
@@ -110,7 +112,21 @@ function Bag() {
             />
           ))
         ) : (
-          <h1>No dishes found in your bag...</h1>
+          <div className="flex flex-col items-center justify-center mt-10">
+            <img src={EmptyBag} className="h-60 w-50" alt="payment Success" />
+            <h1 className="mt-5 font-bold text-3xl text-cyan-400">
+              Your Bag is Empty!
+            </h1>
+            <p className="mt-2 ">
+              You can go to home page to view more restaurants
+            </p>
+            <button
+              onClick={() => navigate("/")}
+              className="border border-slate-500 px-3 py-2 mt-2 rounded-lg"
+            >
+              Home
+            </button>
+          </div>
         )}
       </ul>
       {bagData && (

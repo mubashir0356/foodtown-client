@@ -12,9 +12,11 @@ const ThemeToggleButton = () => {
       setThemeMode(storedTheme);
       dispatch(toggleThemeAction(storedTheme));
     } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      localStorage.setItem("themeMode", "dark");
       setThemeMode("dark");
       dispatch(toggleThemeAction("dark"));
     } else {
+      localStorage.setItem("themeMode", "light");
       setThemeMode("light");
       dispatch(toggleThemeAction("light"));
     }
