@@ -357,7 +357,7 @@ function Register() {
                 <div className="px-2 py-3 w-1/2 m-auto">
                   <button
                     type="button"
-                    className="w-1/2 border rounded-full border-slate-500 p-3 text-black disabled:cursor-not-allowed"
+                    className="w-full border rounded-full border-slate-500 py-2 px-3 text-black disabled:cursor-not-allowed"
                     onClick={handleEmailOtp}
                     disabled={showOTPInput}
                   >
@@ -378,6 +378,12 @@ function Register() {
               )}
               {showOTPInput && (
                 <div className="px-2 py-3 md:w-1/2 m-auto">
+                  <p
+                    onClick={handleEmailOtp}
+                    className="mb-1 cursor-pointer text-blue-800 underline"
+                  >
+                    Resend OTP
+                  </p>
                   <button
                     type="submit"
                     className="w-1/2 border rounded-full border-slate-500 p-3 text-black disabled:cursor-not-allowed"

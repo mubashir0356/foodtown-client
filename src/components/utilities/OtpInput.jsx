@@ -68,7 +68,7 @@ function OtpInput({ length = 4, onOtpSubmit }) {
     <div className="flex justify-center space-x-4">
       {otpInputFields.map((each, index) => (
         <input
-          className="w-12 h-10 text-center border border-slate-500 rounded-xl focus:outline-2 focus:outline-sky-600 "
+          className="w-12 h-10 text-center border border-slate-500 rounded-xl focus:outline-2 focus:outline-sky-600 text-black"
           key={index}
           ref={(input) => (inputRefs.current[index] = input)}
           type="text"

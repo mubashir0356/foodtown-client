@@ -27,6 +27,7 @@ function App() {
     "/partner-registration",
     "/payment-success",
     "/payment-failure",
+    "/reset-password",
   ];
   const hidingThePaths = pathsToHide.includes(location.pathname);
 

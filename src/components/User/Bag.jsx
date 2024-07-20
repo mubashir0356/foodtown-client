@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import Cookies from "js-cookie";
 import configVariables from "../../configurations/config";
@@ -7,6 +7,7 @@ import DishItem from "../Restaurant/DishItem";
 import { loadStripe } from "@stripe/stripe-js";
 import EmptyBag from "../../../public/assets/grocery-icon.png";
 import { useNavigate } from "react-router-dom";
+import { loadBagData } from "../../store/bagSlice";
 
 function Bag() {
   const [bagDishes, setBagDishes] = useState([]);
@@ -14,9 +15,12 @@ function Bag() {
   const bagDataDishIds = bagData?.dishes?.map((each) => each.dishId.toString());
   const [orderAmount, setOrderAmount] = useState(0);
 
+  const dispatch = useDispatch();
+
   const restaurantId = bagData?.restaurantId;
 
   const jwtToken = Cookies.get("jwtToken");
+  const userId = Cookies.get("userId");
 
   const navigate = useNavigate();
 
@@ -100,8 +104,40 @@ function Bag() {
     }
   };
 
+  const handleClearBag = async () => {
+    try {
+      const response = await axios.delete(
+        `${configVariables.ipAddress}/bags/clearBag/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      if (response.status === 200) {
+        dispatch(loadBagData());
+      }
+    } catch (error) {
+      console.log("Bag :: Handle clear bag :: Error: ", error);
+    }
+  };
+
   return (
     <div className="px-2 pb-8 mb-12 sm:mb-0 ">
+      {bagData && (
+        <div className="flex justify-between items-center bg-white dark:bg-slate-800 w-[90%] md:w-4/5 m-auto">
+          <h1 className="font-bold text-lg underline">Your Bag</h1>
+          <button
+            onClick={handleClearBag}
+            className="text-red-500 text-sm sm:text-md text-end self-end font-bold underline mb-1"
+          >
+            Clear Bag
+          </button>
+        </div>
+      )}
       <ul className="bg-white dark:bg-slate-800 w-[90%] md:w-4/5 m-auto divide-y divide-slate-400">
         {bagData ? (
           bagDishes.map((eachDish, index) => (

@@ -6,46 +6,43 @@ import Cookies from "js-cookie";
 const initialState = {
     isLoading: false,
     bagData: null,
-    isError: false
-}
+    isError: false,
+};
 
 const jwtToken = Cookies.get("jwtToken")
+const userId = Cookies.get("userId")
 
 export const loadBagData = createAsyncThunk("loadBagData", async () => {
-    try {
-        const response = await axios.get(`${configVariables.ipAddress}/bags/getBagData/`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${jwtToken}`,
-                },
-                withCredentials: true,
-            }
-        )
-        return response.data?.data
-    } catch (error) {
-        console.log("Bag Slice :: loadBagData :: Error", error)
-    }
-})
+    console.log(jwtToken, "bag JwtToken");
+
+    const response = await axios.get(
+        `${configVariables.ipAddress}/bags/getBagData/${userId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            },
+            withCredentials: true,
+        }
+    );
+    return response.data?.data;
+});
 
 const bagSlice = createSlice({
     name: "bag",
     initialState,
     extraReducers: (builder) => {
         builder.addCase(loadBagData.pending, (state, action) => {
-            state.isLoading = true
+            state.isLoading = true;
         });
         builder.addCase(loadBagData.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.bagData = action.payload
+            state.bagData = action.payload;
         });
         builder.addCase(loadBagData.rejected, (state, action) => {
-            console.log(action.payload, "Error")
-            state.isError = true
+            console.log(action, "Error");
+            state.isError = true;
         });
-    }
-})
+    },
+});
 
-export default bagSlice.reducer
-
-// export const { loadBagData } = bagSlice.actions
+export default bagSlice.reducer;

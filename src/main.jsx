@@ -25,12 +25,15 @@ import ContactUs from "./components/User/ContactUs.jsx";
 import Restaurant from "./components/Restaurant/Restaurant.jsx";
 import PaymentSuccess from "./components/Payment/PaymentSuccess.jsx";
 import PaymentFailure from "./components/Payment/PaymentFailure.jsx";
+import ResetPassword from "./components/authentication/Login/ResetPassword.jsx";
+import UserProfile from "./components/Profile/UserProfile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
+      <Route path="reset-password" element={<ResetPassword />} />
       <Route
         path=""
         element={
@@ -110,6 +113,15 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute>
             <PaymentFailure />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="my-profile"
+        element={
+          <ProtectedRoute>
+            <UserProfile />
           </ProtectedRoute>
         }
       />
