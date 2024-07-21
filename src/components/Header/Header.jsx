@@ -179,11 +179,6 @@ function Header() {
               >
                 Logout
               </MenuItem>
-              <MenuItem
-                sx={{ color: `${uiTheme === "dark" ? "white" : "black"}` }}
-              >
-                Help
-              </MenuItem>
             </Menu>
           </Dropdown>
         </div>

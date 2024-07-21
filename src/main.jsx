@@ -125,6 +125,15 @@ const router = createBrowserRouter(
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="partner-profile"
+        element={
+          <ProtectedRoute>
+            <UserProfile />
+          </ProtectedRoute>
+        }
+      />
       <Route path="partner-registration" element={<PartnerRegister />} />
       <Route path="*" element={<NotFound />} />
     </Route>

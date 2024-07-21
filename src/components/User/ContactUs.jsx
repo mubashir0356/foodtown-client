@@ -127,7 +127,7 @@ function ContactUs() {
           <div className="col-span-6">
             <button
               type="submit"
-              className="w-full py-3 border border-slate-400 rounded-md shadow-md focus:outline-none dark:border-gray-600 dark:text-white dark:bg-gray-700 hover:bg-gray-900"
+              className="w-full py-3 border border-slate-400 rounded-md shadow-md focus:outline-none dark:border-gray-600 dark:text-white dark:bg-gray-700"
             >
               Send Message
             </button>

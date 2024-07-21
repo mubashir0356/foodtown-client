@@ -13,8 +13,6 @@ const jwtToken = Cookies.get("jwtToken")
 const userId = Cookies.get("userId")
 
 export const loadBagData = createAsyncThunk("loadBagData", async () => {
-    console.log(jwtToken, "bag JwtToken");
-
     const response = await axios.get(
         `${configVariables.ipAddress}/bags/getBagData/${userId}`,
         {
