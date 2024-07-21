@@ -9,21 +9,30 @@ const initialState = {
     isError: false,
 };
 
-const jwtToken = Cookies.get("jwtToken")
-const userId = Cookies.get("userId")
+export const loadBagData = createAsyncThunk("loadBagData", async (_, thunkAPI) => {
+    const jwtToken = Cookies.get("jwtToken");
+    const userId = Cookies.get("userId");
 
-export const loadBagData = createAsyncThunk("loadBagData", async () => {
-    const response = await axios.get(
-        `${configVariables.ipAddress}/bags/getBagData/${userId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-            },
-            withCredentials: true,
-        }
-    );
-    return response.data?.data;
+    if (!jwtToken || !userId) {
+        return thunkAPI.rejectWithValue("JWT token or userId not found in cookies");
+    }
+
+    try {
+        const response = await axios.get(
+            `${configVariables.ipAddress}/bags/getBagData/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+                withCredentials: true,
+            }
+        );
+        return response.data?.data;
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.message);
+    }
 });
+
 
 const bagSlice = createSlice({
     name: "bag",
@@ -39,6 +48,7 @@ const bagSlice = createSlice({
         builder.addCase(loadBagData.rejected, (state, action) => {
             console.log(action, "Error");
             state.isError = true;
+            state.bagData = null
         });
     },
 });

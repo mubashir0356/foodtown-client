@@ -33,52 +33,53 @@ function App() {
 
   const showPartnerHeaderFooter = location.pathname.startsWith("/partner");
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const response = await axios.get(
-          `${configVariables.ipAddress}/users/getuser/${userId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${jwtToken}`,
-            },
-            withCredentials: true,
-          }
-        );
-
-        if (response.status === 200) {
-          const userData = response.data.data;
-          dispatch(login(userData));
-
-          if (userData.isOwner) {
-            const restaurantResponse = await axios.get(
-              `${configVariables.ipAddress}/restaurants/getRestaurantData/${userId}`,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${jwtToken}`,
-                },
-                withCredentials: true,
-              }
-            );
-
-            if (restaurantResponse.status === 200) {
-              const restaurantData = restaurantResponse.data.data;
-              dispatch(loadRestaurantData(restaurantData));
-            }
-          } else {
-            dispatch(loadBagData());
-          }
+  const getUserData = async () => {
+    try {
+      const response = await axios.get(
+        `${configVariables.ipAddress}/users/getuser/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          withCredentials: true,
         }
-      } catch (error) {
-        console.log("Error while fetching userdata", error);
+      );
+
+      if (response.status === 200) {
+        const userData = response.data.data;
+        dispatch(login(userData));
+
+        if (userData.isOwner) {
+          const restaurantResponse = await axios.get(
+            `${configVariables.ipAddress}/restaurants/getRestaurantData/${userId}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${jwtToken}`,
+              },
+              withCredentials: true,
+            }
+          );
+
+          if (restaurantResponse.status === 200) {
+            const restaurantData = restaurantResponse.data.data;
+            dispatch(loadRestaurantData(restaurantData));
+          }
+        } else {
+          dispatch(loadBagData());
+        }
       }
-    };
-    if (userId) {
+    } catch (error) {
+      console.log("Error while fetching userdata", error);
+    }
+  };
+
+  useEffect(() => {
+    if (userId && jwtToken) {
       getUserData();
     }
-  }, [userId, jwtToken, dispatch]);
+  }, [userId, jwtToken]);
 
   return (
     <div className="pt-6 bg-white dark:bg-slate-800 dark:text-white flex flex-col min-h-screen">

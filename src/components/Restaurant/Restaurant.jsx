@@ -6,9 +6,11 @@ import Cookies from "js-cookie";
 import StarsRoundedIcon from "@mui/icons-material/StarsRounded";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import DishItem from "./DishItem";
+import DishItemSkeleton from "../skeletons/DishItemSkeleton";
 
 function Restaurant() {
   const { restaurantId } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
 
   // TODO: add skeleton or loading effect
 
@@ -46,10 +48,10 @@ function Restaurant() {
           updatedAt: responseData.updatedAt,
           _id: responseData._id,
         };
-
         setRestauranDetails(restaurantData);
         setDishes(responseData.dishesData);
         setOwnerDetails(responseData.ownerData);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log("Restaurant :: Fetch Restaurant Data :: Error:", error);
@@ -102,13 +104,17 @@ function Restaurant() {
         Dishes
       </h2>
       <ul className="bg-white dark:bg-slate-800 w-[90%] md:w-4/5 m-auto divide-y divide-slate-400">
-        {dishes.map((eachDish) => (
-          <DishItem
-            key={eachDish._id}
-            dish={eachDish}
-            restaurantId={restaurantDetails._id}
-          />
-        ))}
+        {isLoading
+          ? new Array(5)
+              .fill("")
+              .map((e, index) => <DishItemSkeleton key={index} />)
+          : dishes.map((eachDish) => (
+              <DishItem
+                key={eachDish._id}
+                dish={eachDish}
+                restaurantId={restaurantDetails._id}
+              />
+            ))}
       </ul>
     </div>
   );
