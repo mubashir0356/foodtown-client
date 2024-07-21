@@ -5,8 +5,8 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import configVariables from "../../configurations/config";
-import OtpInput from "../utilities/OtpInput";
+import configVariables from "../../../configurations/config";
+import OtpInput from "../../utilities/OtpInput";
 import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 

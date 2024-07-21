@@ -235,7 +235,7 @@ function Bag() {
               <div className="w-full flex justify-end">
                 <button
                   disabled={!userData.address}
-                  className="px-3 py-2 border border-slate-500 rounded-xl"
+                  className="px-3 py-2 border border-slate-500 rounded-xl disabled:cursor-not-allowed"
                   onClick={handlePayment}
                 >
                   Pay now

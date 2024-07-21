@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState, useId } from "react";
 import configVariables from "../../configurations/config";
 import Cookies from "js-cookie";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function PartnerOrderItems({ order, fetchData }) {
   const jwtToken = Cookies.get("jwtToken");
@@ -26,9 +28,17 @@ function PartnerOrderItems({ order, fetchData }) {
       );
 
       if (response.status === 200) {
-        console.log(response, "User orders res");
+        toast.success("Order Status Changed", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         fetchData();
-        // setOrders(response.data.data)
       }
     } catch (error) {
       console.log("Partner Orders :: handleStatusChange :: Error:", error);
@@ -37,6 +47,7 @@ function PartnerOrderItems({ order, fetchData }) {
 
   return (
     <li className="border border-slate-300 rounded-lg shadow-xl w-[90%] md:w-3/4 m-auto mt-4">
+      <ToastContainer />
       <div className=" rounded-t-lg flex justify-between w-full bg-slate-100 text-black dark:bg-slate-600 dark:text-white p-2 sm:p-4">
         <h1>{order.customerData.name}</h1>
         <p>
