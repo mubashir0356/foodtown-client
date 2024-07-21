@@ -4,6 +4,7 @@ import configVariables from "../../configurations/config";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import PartnerOrderItems from "./PartnerOrderItems";
+import PartnerOrderSkeleton from "../skeletons/PartnerOrderSkeleton";
 
 function PartnerOrders() {
   const restaurantData = useSelector(
@@ -12,6 +13,7 @@ function PartnerOrders() {
   const jwtToken = Cookies.get("jwtToken");
 
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchRestaurantOrders = async () => {
     try {
@@ -27,6 +29,7 @@ function PartnerOrders() {
 
       if (response.status === 200) {
         setOrders(response.data.data);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log("Partner Orders :: fetchRestaurantOrders :: Error:", error);
@@ -41,13 +44,17 @@ function PartnerOrders() {
   return (
     <div className="px-0 sm:px-10 pb-8 mb-12 sm:mb-0">
       <ul>
-        {orders.map((eachOrder) => (
-          <PartnerOrderItems
-            key={eachOrder._id}
-            order={eachOrder}
-            fetchData={fetchRestaurantOrders}
-          />
-        ))}
+        {isLoading
+          ? new Array(6)
+              .fill("")
+              .map((each, index) => <PartnerOrderSkeleton key={index} />)
+          : orders.map((eachOrder) => (
+              <PartnerOrderItems
+                key={eachOrder._id}
+                order={eachOrder}
+                fetchData={fetchRestaurantOrders}
+              />
+            ))}
       </ul>
     </div>
   );

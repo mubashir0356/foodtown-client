@@ -184,7 +184,7 @@ function Bag() {
             )}
           </ul>
           {bagData &&
-            (userData.address ? (
+            (userData?.address ? (
               <div className="flex items-center justify-between w-[90%] md:w-4/5 m-auto border border-dashed border-slate-500 shadow-lg rounded-xl p-2 mb-2">
                 <p>
                   <span className="font-bold">Deliver to: </span>
